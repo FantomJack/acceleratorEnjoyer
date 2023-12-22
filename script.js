@@ -133,6 +133,7 @@ window.onload = function() {
 
     helpModal = document.getElementById("helpModal");
 
+
     fpsInterval = 1000 / fps;
     then = Date.now();
     requestAnimationFrame(frame);
@@ -159,7 +160,7 @@ function handleOrientation(event) {
         orientation = filteredOrientation;
 
     } else {
-        document.getElementById('orientationInfo').innerText = 'device orientation not available.';
+        console.log("Device orientation not available.");
     }
 }
 
@@ -244,14 +245,29 @@ function buttonDown(e) {
     }
 }
 
+let gyroMovement = 0;
+
+
 function moveDoodlerGyro() {
-    document.getElementById('orientationInfo').innerText = orientation;
+
     if (orientation > 0) {
-        // move right
-        doodler.moveRight();
+        gyroMovement = 2;
+        doodler.moveRight(2);
     } else if (orientation < 0) {
         // move left
-        doodler.moveLeft();
+        gyroMovement = -2;
+        doodler.moveLeft(2);
+    } else {
+        // stop movement
+        gyroMovement = 0;
+    }
+
+    if (gyroMovement !== 0) {
+        doodler.velocityLeft = gyroMovement;
+        doodler.velocityRight = gyroMovement;
+    } else {
+        doodler.velocityLeft = 0;
+        doodler.velocityRight = 0;
     }
 }
 

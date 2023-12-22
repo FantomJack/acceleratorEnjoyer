@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcceleratorEnjoyer</title>
+    <link rel="stylesheet" href="style.css">
+    <!--    ios support -->
+<!--    <link rel="apple-touch-icon" href="./assets/icon/icon-96x96.png">-->
+<!--    <meta name="mobile-web-app-status-bar-style" content="#C6BBAB">-->
+<!--    <meta name="mobile-web-app-capable" content="yes">-->
+<!--    <link rel="manifest" href="manifest.json">-->
+    <script type="module" src="script.js"></script>
+</head>
+<body>
+<button id="helpButton" onclick="openHelpModal()">Pomoc</button>
+<button id="restartButton" onclick="restartLevel()">Začni odznova</button>
+
+<br>
+<div id="orientationInfo"></div>
+<div id="helpModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeHelpModal()">&times;</span>
+        <div id="rulesContainer"></div>
+    </div>
+</div>
+    <canvas id="board" class="noPrint"></canvas>
+</body>
+</html>

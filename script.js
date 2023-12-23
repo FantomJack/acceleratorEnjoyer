@@ -112,6 +112,11 @@ function restartLevel() {
     console.log("Restarting level...");
     reset();
 }
+
+function landingPage() {
+    window.location.href = 'welcome.html';
+}
+
 window.onload = function() {
 
     doodler = new Doodler(46, 46 , boardWidth, boardHeight);
@@ -142,10 +147,12 @@ window.onload = function() {
 
     const helpButton = document.getElementById('helpButton');
     const restartButton = document.getElementById('restartButton');
+    const welcomeButton = document.getElementById('welcomeButton');
     const closeButton = document.querySelector('.close');
 
     helpButton.addEventListener("click", openHelpModal);
     restartButton.addEventListener("click", restartLevel);
+    welcomeButton.addEventListener("click", landingPage);
     closeButton.addEventListener("click", closeHelpModal);
 }
 
@@ -295,10 +302,10 @@ function reset(){
 function loadImages() {
     // load images
     doodler.RightImg = new Image();
-    doodler.RightImg.src = "./assets/doodler-right.png";
+    doodler.RightImg.src = "./assets/slime-right.png";
 
     doodler.LeftImg = new Image();
-    doodler.LeftImg.src = "./assets/doodler-left.png";
+    doodler.LeftImg.src = "./assets/slime-left.png";
 
     Platform.img = new Image();
     Platform.img.src = "./assets/platform.png";

@@ -62,44 +62,85 @@ function openHelpModal() {
         imageElement.alt = "Phone Controls";
         imageElement.style.width = "50%";
 
-        const textElement2 = document.createElement("div");
-        textElement2.innerHTML = "<br><h3>Cieľ hry: </h3><br>" +
-            "Dostať sa na koniec levelu"  ;
-
         contentContainer.appendChild(imageElement);
-        contentContainer.appendChild(textElement2);
 
-        rulesContainer.appendChild(contentContainer);
 
     } else {
         rulesContainer.innerHTML = "<h2>Pomocník</h2>" +
             "<br>" +
             "<h3>Ovládanie hry:</h3><br>" +
-            "<p>Na pohyb panáčika použi klávesy A a D</p><br>";
-        const imageElement = document.createElement("img");
-        imageElement.src = "assets/adkeys.png";
-        imageElement.alt = "Controls A D";
-        imageElement.style.width = "30%";
-
-        const textElement = document.createElement("div");
-        textElement.innerHTML = "<br><p>Alebo šípkové klávesy <- a -></p><br>";
+            "<p>Na pohyb panáčika použi klávesy A a D alebo šípkové klávesy <- a -></p><br>";
 
         const imageElement2 = document.createElement("img");
-        imageElement2.src = "assets/arrow keys.png";
+        imageElement2.src = "assets/keys.png";
         imageElement2.alt = "Controls Arrows";
-        imageElement2.style.width = "30%";
+        imageElement2.style.width = "80%";
 
-        const textElement2 = document.createElement("div");
-        textElement2.innerHTML = "<br><h3>Cieľ hry: </h3><br>" +
-            "Dostať sa na koniec levelu<br><br>"  ;
-
-        contentContainer.appendChild(imageElement);
-        contentContainer.appendChild(textElement);
         contentContainer.appendChild(imageElement2);
-        contentContainer.appendChild(textElement2);
+        }
 
-        rulesContainer.appendChild(contentContainer);    }
+    const textBasicPlatform = document.createElement("div");
+    textBasicPlatform.innerHTML = "<br><h3>Platformy: </h3><br>" +
+        "<p>1) Obyčajná platforma, z ktorej sa odrazíš a postúpiš vyššie.</p><br>"  ;
+    const imagePlatform = document.createElement("img");
+    imagePlatform.src = "assets/platform.png";
+    imagePlatform.alt = "Platforma";
 
+    const textBroken = document.createElement("div");
+    textBroken.innerHTML = "<br><p>------------***------------<br><br><br>2) Platforma, z ktorej sa neodrazíš, ale padneš dole.</p><br>"  ;
+    const imageBroken = document.createElement("img");
+    imageBroken.src = "assets/platform-broken.png";
+    imageBroken.alt = "Zničená platforma";
+
+    const textDeadly = document.createElement("div");
+    textDeadly.innerHTML = "<br><p>------------***------------<br><br><br>3) Platforma, na ktorú keď skočíš, automaticky prehrávaš.</p><br>"  ;
+    const imageDeadly = document.createElement("img");
+    imageDeadly.src = "assets/platform-deadly.png";
+    imageDeadly.alt = "Platforma, ktorá ťa zabije";
+
+    const textMoving = document.createElement("div");
+    textMoving.innerHTML = "<br><p>------------***------------<br><br><br>4) Pohyblivá platforma. Odraz z nej funguje rovnako ako pri obyčajnej platforme, až na to že sa hýbe.</p><br>"  ;
+    const imageMoving = document.createElement("img");
+    imageMoving.src = "assets/platform-moving.png";
+    imageMoving.alt= "Pohyblivá platforma";
+
+    const textHigh = document.createElement("div");
+    textHigh.innerHTML = "<br><p>------------***------------<br><br><br>5) Platforma, ktorá zvyšuje tvoj skok po odrazení.</p><br>"  ;
+    const imageHigh = document.createElement("img");
+    imageHigh.src = "assets/high-jump.png";
+    imageHigh.alt= "Platforma na vyšší skok";
+
+    const textLow = document.createElement("div");
+    textLow.innerHTML = "<br><p>------------***------------<br><br><br>6) Platforma, ktorá znižuje tvoj skok po odrazení.</p><br>"  ;
+    const imageLow = document.createElement("img");
+    imageLow.src = "assets/low-jump.png";
+    imageLow.alt= "Platforma na nižší skok";
+
+    //platforms
+    contentContainer.appendChild(textBasicPlatform);
+    contentContainer.appendChild(imagePlatform);
+
+    contentContainer.appendChild(textBroken);
+    contentContainer.appendChild(imageBroken);
+
+    contentContainer.appendChild(textDeadly);
+    contentContainer.appendChild(imageDeadly);
+
+    contentContainer.appendChild(textMoving);
+    contentContainer.appendChild(imageMoving);
+
+    contentContainer.appendChild(textHigh);
+    contentContainer.appendChild(imageHigh);
+
+    contentContainer.appendChild(textLow);
+    contentContainer.appendChild(imageLow);
+
+    const textElement2 = document.createElement("div");
+    textElement2.innerHTML = "<br><h3>Cieľ hry: </h3><br>" +
+        "<p>Hra obsahuje 5 levelov. Na úspešné dokončenie celej hry je potrebné prejsť všetky z nich. Na úspešný prechod levelom je potrebné dostať sa na jeho koniec.</p><br><br>"  ;
+
+    contentContainer.appendChild(textElement2);
+    rulesContainer.appendChild(contentContainer);
     helpModal.style.display = "block";
 }
 

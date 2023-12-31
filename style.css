@@ -4,8 +4,19 @@ body {
     margin: 0;
     background-color: #ecfade;
     padding: 10px ;
-
+    font-family: 'Comic Sans MS', sans-serif;
 }
+
+article {
+    text-align: center;
+    height: 100vh;
+    width: 60%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+}
+
 
 #board {
     background-image: url("assets/slimejumpbg.png");
@@ -31,6 +42,8 @@ button {
     cursor: pointer;
     margin: 5px;
     transition: background-color 0.3s ease;
+    font-family: 'Comic Sans MS', sans-serif;
+
 }
 
 
@@ -74,4 +87,14 @@ button:hover {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+h1, h2, h3 {
+    color: #FF528E;
+
+}
+
+p {
+    color: #8C2D4E;
+
 }

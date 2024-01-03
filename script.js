@@ -1,6 +1,6 @@
 import {
     BreakingPlatform,
-    DeadlyPlatform,
+    DeadlyPlatform, EndPlatform,
     HighJumpPlatform,
     LowJumpPlatform,
     MovingPlatform,
@@ -23,12 +23,8 @@ let platformArray = [];
 //physics
 let gravity = 0.3;
 
-
 // GAME STATES
 let gameOver = false;
-let menu = false;
-let mobile = false;
-let hits = false;
 
 // FPS
 let now;
@@ -42,6 +38,15 @@ let filteredOrientation = 0;
 const alpha = 0.2;
 
 let helpModal = document.getElementById("helpModal");
+let levelsData;
+let initialPlatformY;
+let finish = false;
+let gyroMovement = 0;
+
+let totalLevels = 0;
+let currentLevelIndex = -1;
+let playedLevels = [];
+
 function openHelpModal() {
     const helpModal = document.getElementById("helpModal");
     const rulesContainer = document.getElementById("rulesContainer");
@@ -116,6 +121,12 @@ function openHelpModal() {
     imageLow.src = "assets/low-jump.png";
     imageLow.alt= "Platforma na nižší skok";
 
+    const textEnd = document.createElement("div");
+    textEnd.innerHTML = "<br><p>------------***------------<br><br><br>7) Cieľová platforma, skoč na ňu pre postup do ďalšieho levelu.</p><br>"  ;
+    const imageEnd = document.createElement("img");
+    imageEnd.src = "assets/end.png";
+    imageEnd.alt= "Cieľová platforma";
+
     //platforms
     contentContainer.appendChild(textBasicPlatform);
     contentContainer.appendChild(imagePlatform);
@@ -135,6 +146,9 @@ function openHelpModal() {
     contentContainer.appendChild(textLow);
     contentContainer.appendChild(imageLow);
 
+    contentContainer.appendChild(textEnd);
+    contentContainer.appendChild(imageEnd);
+
     const textElement2 = document.createElement("div");
     textElement2.innerHTML = "<br><h3>Cieľ hry: </h3><br>" +
         "<p>Hra obsahuje 5 levelov. Na úspešné dokončenie celej hry je potrebné prejsť všetky z nich. Na úspešný prechod levelom je potrebné dostať sa na jeho koniec.</p><br><br>"  ;
@@ -151,11 +165,39 @@ function closeHelpModal() {
 
 function restartLevel() {
     console.log("Restarting level...");
+    saveGameState();
     reset();
 }
 
 function landingPage() {
     window.location.href = 'welcome.html';
+}
+
+function saveGameState() {
+    const gameState = {
+        currentLevelIndex,
+        playedLevels,
+    };
+
+    localStorage.setItem('gameState', JSON.stringify(gameState));
+}
+
+// load game state from local storage
+function loadGameState() {
+    const savedGameState = localStorage.getItem('gameState');
+
+    if (savedGameState) {
+        const gameState = JSON.parse(savedGameState);
+        currentLevelIndex = gameState.currentLevelIndex;
+        playedLevels = gameState.playedLevels;
+        loadLevel(levelsData.levels[currentLevelIndex]);
+        placePlatforms();
+
+    } else {
+        loadRandomLevel();
+        loadLevel(levelsData.levels[currentLevelIndex]);
+        placePlatforms();
+    }
 }
 
 window.onload = function() {
@@ -195,6 +237,9 @@ window.onload = function() {
     restartButton.addEventListener("click", restartLevel);
     welcomeButton.addEventListener("click", landingPage);
     closeButton.addEventListener("click", closeHelpModal);
+
+    placePlatforms();
+    loadGameState();
 }
 
 window.addEventListener("deviceorientation", function (event) {
@@ -212,9 +257,29 @@ function handleOrientation(event) {
     }
 }
 
+function loadRandomLevel() {
+    while(1){
+        let chosen = Math.floor(Math.random() * totalLevels);
+        if (!playedLevels.includes(chosen)){
+            currentLevelIndex = chosen;
+            break;
+        }
+    }
+}
+
+function loadLevel(levelData) {
+    platformArray = [];
+
+    for (const platformInfo of levelData.platforms) {
+        const { x, y, type } = platformInfo;
+        platformArray.push(createPlatform(type, x, y));
+    }
+
+    initialPlatformY = platformArray[0].y;
+
+}
+
 function frame(){
-
-
     requestAnimationFrame(frame);
 
     now = Date.now();
@@ -228,7 +293,28 @@ function frame(){
 
 function update() {
 
+    if (finish) {
+        finish = false;
+        playedLevels.push(currentLevelIndex);
+        saveGameState();
+
+        if(playedLevels.length === totalLevels || playedLevels.length > totalLevels ){
+            console.log("Congratulations! You completed all levels.");
+            playedLevels = [];
+            currentLevelIndex = -1;
+            saveGameState();
+            window.location.href = 'success.html';
+        }
+        else {
+            loadRandomLevel();
+            doodler.reset(boardWidth, boardHeight)
+
+            loadLevel(levelsData.levels[currentLevelIndex]);
+        }
+    }
+
     if (gameOver) {
+        saveGameState();
         return;
     }
 
@@ -237,7 +323,6 @@ function update() {
     //platforms
     for (let i = 0; i < platformArray.length; i++) {
         let platform = platformArray[i]
-
         // sliding platforms
         if (doodler.velocityY < 0 && doodler.y < boardHeight*3/4) {
             platform.y -= doodler.velocityY; //slide platform down
@@ -248,6 +333,9 @@ function update() {
                 killedByPlatform(i)
                 return;
             }
+            if (platform.constructor.name === "EndPlatform"){
+                finish = true;
+            }
             platform.onCollision(doodler);
         }
 
@@ -255,13 +343,7 @@ function update() {
         context.drawImage(platform.img, platform.x, platform.y, Platform.width, Platform.height);
     }
 
-    // clear platforms and add new platform
-    while (platformArray.length > 0 && platformArray[0].y >= boardHeight) {
-        platformArray.shift(); //removes first element from the array
-        addPlatform(-Platform.height); //replace with new platform on top
-    }
-
-    //doodler
+    // doodler
     doodler.update(boardWidth, gravity);
     context.drawImage(doodler.img, doodler.x, doodler.y, doodler.width, doodler.height);
 
@@ -270,6 +352,7 @@ function update() {
     }
 
     if (gameOver) {
+
         setGameOver();
     }
 }
@@ -280,6 +363,7 @@ function buttonUp(e){
     if (e.code === "ArrowRight" || e.code === "KeyD")
         doodler.velocityRight = 0;
 }
+
 function buttonDown(e) {
 
     if (e.code === "ArrowRight" || e.code === "KeyD") { //move right
@@ -293,9 +377,6 @@ function buttonDown(e) {
     }
 }
 
-let gyroMovement = 0;
-
-
 function moveDoodlerGyro() {
 
     if (orientation > 0) {
@@ -306,7 +387,6 @@ function moveDoodlerGyro() {
         gyroMovement = -2;
         doodler.moveLeft(2);
     } else {
-        // stop movement
         gyroMovement = 0;
     }
 
@@ -320,25 +400,52 @@ function moveDoodlerGyro() {
 }
 
 function placePlatforms() {
-    platformArray = [];
+    fetch('levels.json')
+        .then(response => response.json())
+        .then(data => {
+            levelsData = data;
+            totalLevels = levelsData.levels.length;
 
-    let platform = new Platform(boardWidth/2, boardHeight - 50)
-    platformArray.push(platform);
+            if (currentLevelIndex===-1){
+                loadRandomLevel();
+            }
+            loadLevel(levelsData.levels[currentLevelIndex]);
+            doodler.reset(boardWidth, boardHeight);
 
-    for (let i = 0; i < 6; i++) {
-        addPlatform(boardHeight - 75*i - 150);
+        });
+}
+
+function createPlatform(type, x, y) {
+    switch (type) {
+        case 'basic':
+            return new Platform(x, y);
+        case 'broken':
+            return new BreakingPlatform(x, y);
+        case 'highJump':
+            return new HighJumpPlatform(x, y);
+        case 'lowJump':
+            return new LowJumpPlatform(x, y);
+        case 'deadly':
+            return new DeadlyPlatform(x, y);
+        case 'moving':
+            return new MovingPlatform(x, y);
+        case 'end':
+            return new EndPlatform(x, y);
+        default:
+            return new Platform(x, y);
     }
 }
-function addPlatform(height) {
-    let randomX = Math.floor(Math.random() * boardWidth*3/4); //(0-1) * boardWidth*3/4
-    let platform = randomPlatformType(randomX, height);
-    platformArray.push(platform);
-}
+
 function reset(){
 
-    doodler.reset(boardWidth, boardHeight)
+    doodler.reset(boardWidth, boardHeight);
     gameOver = false;
+    platformArray = [];
+
+    loadLevel(levelsData.levels[currentLevelIndex]);
+
     placePlatforms();
+
 }
 function loadImages() {
     // load images
@@ -365,30 +472,14 @@ function loadImages() {
 
     DeadlyPlatform.img = new Image();
     DeadlyPlatform.img.src = "./assets/platform-deadly.png";
+
+    EndPlatform.img = new Image();
+    EndPlatform.img.src = "./assets/end.png";
 }
 function setGameOver(){
-    context.fillStyle = "black";
-    context.font = "16px sans-serif";
-    context.fillText("Game Over: Press 'Space' to Restart", boardWidth/7, boardHeight*12/13);
-}
-
-function randomPlatformType(x, y){
-    let random = Math.floor(Math.random() * (10));
-
-    switch (random) {
-        case 0:
-            return new MovingPlatform(x, y);
-        case 1:
-            return new HighJumpPlatform(x, y);
-        case 2:
-            return new LowJumpPlatform(x, y);
-        case 3:
-            return new DeadlyPlatform(x, y);
-        case 4:
-            return new BreakingPlatform(x,y);
-        default:
-            return new Platform(x, y);
-    }
+    context.fillStyle = "#FF528E";
+    context.font = "16px Comic Sans MS";
+    context.fillText("Game Over: Stlač 'Space' na Reštart", boardWidth/7, boardHeight*12/13);
 }
 
 function killedByPlatform(i){

@@ -85,5 +85,13 @@ export class DeadlyPlatform extends Platform{
     onCollision(doodler) {}
 }
 
+export class EndPlatform extends Platform{
+    get img(){
+        return EndPlatform.img;
+    }
+
+    onCollision(doodler) {}
+}
+
 
 

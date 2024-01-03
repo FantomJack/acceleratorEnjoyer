@@ -98,3 +98,38 @@ p {
     color: #8C2D4E;
 
 }
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .modal, .modal * {
+        visibility: visible;
+    }
+
+    .modal:before {
+        content: " Slime Accelerator Extravaganza je platformová hra, ktorej cieľom je posúvať slizovitú postavičku Slime po sérií platforiem bez padnutia. V tejto hre sa nachádza dokopy 5 levelov, ktoré treba všetky úspešne prejsť. Hra obsahuje rôzne druhy platforiem. Hru je možné hrať na počítačoch, alebo mobilných zariadeniach. Aktuálny stav hry sa zapamätá aj po zatvorení prehliadača.";
+        display: block;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #8C2D4E;
+    }
+
+    .modal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        overflow-y: auto;
+        page-break-before: always;
+
+    }
+
+    .close {
+        display: none !important;
+    }
+
+}
+

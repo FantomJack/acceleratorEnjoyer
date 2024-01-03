@@ -21,6 +21,13 @@
     V tejto hre sa nachádza dokopy 5 levelov, ktoré treba všetky úspešne prejsť. Hra obsahuje rôzne druhy platforiem.
     Hru je možné hrať na počítačoch, alebo mobilných zariadeniach. Aktuálny stav hry sa zapämatá aj po zatvorení prehliadača.<br><br><br>------------***------------<br></p>
 <button onclick="startGame()">Začni hrať</button>
+
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeHelpModal()">&times;</span>
+            <div id="rulesContainer"></div>
+        </div>
+    </div>
 </article>
 <script>
     function startGame() {

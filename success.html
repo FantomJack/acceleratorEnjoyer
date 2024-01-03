@@ -18,6 +18,14 @@
 <article>
     <h1>Gratulujeme! Úspešne ste dokončilli všetky levely!</h1>
      <button onclick="startGame()">Hrať znova</button>
+
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeHelpModal()">&times;</span>
+            <div id="rulesContainer"></div>
+        </div>
+    </div>
+
 </article>
 <script>
     function startGame() {

@@ -58,7 +58,7 @@ function openHelpModal() {
     const contentContainer = document.createElement("div");
 
     if (isMobile) {
-        rulesContainer.innerHTML = "<h2>Pomocník</h2>" +
+        rulesContainer.innerHTML = "<h2>Návod a pravidlá</h2>" +
             "<br>" +
             "<h3>Ovládanie hry:</h3><br>" +
             "<p>Na pohyb panáčika hýb mobilom doľava a doprava</p><br>";
@@ -71,7 +71,7 @@ function openHelpModal() {
 
 
     } else {
-        rulesContainer.innerHTML = "<h2>Pomocník</h2>" +
+        rulesContainer.innerHTML = "<h2>Návod a pravidlá</h2>" +
             "<br>" +
             "<h3>Ovládanie hry:</h3><br>" +
             "<p>Na pohyb panáčika použi klávesy A a D alebo šípkové klávesy <- a -></p><br>";
@@ -501,4 +501,33 @@ function killedByPlatform(i){
     context.drawImage(doodler.img, doodler.x, doodler.y, doodler.width, doodler.height);
     setGameOver();
 }
+
+function beforePrintHandler() {
+    setTimeout(() => {
+        openHelpModal();
+    }, 100);
+}
+
+function afterPrintHandler() {
+    closeHelpModal();
+
+}
+
+if (window.matchMedia) {
+    const mediaQueryList = window.matchMedia('print');
+
+    mediaQueryList.addListener((mql) => {
+        if (mql.matches) {
+            // Before print
+            beforePrintHandler();
+        } else {
+            // After print
+            afterPrintHandler();
+        }
+    });
+}
+
+// For browsers that don't support matchMedia
+window.onbeforeprint = beforePrintHandler;
+window.onafterprint = afterPrintHandler;
 

@@ -299,11 +299,19 @@ function update() {
         saveGameState();
 
         if(playedLevels.length === totalLevels || playedLevels.length > totalLevels ){
-            console.log("Congratulations! You completed all levels.");
-            playedLevels = [];
-            currentLevelIndex = -1;
-            saveGameState();
-            window.location.href = 'success.html';
+            if (!playedLevels.includes(-1) || playedLevels.length > totalLevels ) {
+                console.log("Congratulations! You completed all levels.");
+                playedLevels = [];
+                currentLevelIndex = -1;
+                saveGameState();
+                window.location.href = 'success.html';
+            }
+            else if (playedLevels.length === totalLevels){
+                loadRandomLevel();
+                doodler.reset(boardWidth, boardHeight)
+
+                loadLevel(levelsData.levels[currentLevelIndex]);
+            }
         }
         else {
             loadRandomLevel();

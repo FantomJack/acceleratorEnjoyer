@@ -503,9 +503,8 @@ function killedByPlatform(i){
 }
 
 function beforePrintHandler() {
-    setTimeout(() => {
-        openHelpModal();
-    }, 100);
+    openHelpModal();
+
 }
 
 function afterPrintHandler() {

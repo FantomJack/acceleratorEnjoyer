@@ -26,12 +26,6 @@ article {
     outline: groove #8ec854 0.2em;
 }
 
-@media print {
-    .noPrint{
-        display: none;
-    }
-}
-
 button {
     background-color: #40a8fe;
     color: #fff;
@@ -100,6 +94,11 @@ p {
 }
 
 @media print {
+
+    .noPrint{
+        display: none;
+    }
+
     body * {
         visibility: hidden;
     }
@@ -114,6 +113,8 @@ p {
         margin-bottom: 20px;
         font-weight: bold;
         color: #8C2D4E;
+        border: none !important;
+        padding: 0 !important;
     }
 
     .modal {
@@ -124,12 +125,14 @@ p {
         height: auto;
         overflow-y: auto;
         page-break-before: always;
-
+        border: none !important;
     }
 
     .close {
         display: none !important;
     }
-
 }
+
+
+
 

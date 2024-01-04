@@ -1,15 +1,18 @@
 body {
     text-align: center;
-    height: 100vh;
+    height: 100%;
     margin: 0;
     background-color: #ecfade;
     padding: 10px ;
     font-family: 'Comic Sans MS', sans-serif;
 }
 
+#title-img{
+    width: 40%;
+}
+
 article {
     text-align: center;
-    height: 100vh;
     width: 60%;
     margin: 0 auto;
     background-color: #ffffff;
@@ -134,5 +137,18 @@ p {
 }
 
 
+@media only screen and (max-width: 700px) {
+
+    #title-img{
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 437px) {
+
+    #title-img{
+        width: 90%;
+    }
+}
 
 

@@ -6,7 +6,7 @@ import {
     MovingPlatform,
     Platform
 } from "./platform.js";
-import {Doodler} from "./assets/doodler.js";
+import {Slime} from "./slime.js";
 
 //board
 let board;
@@ -14,8 +14,8 @@ let boardWidth = 360;
 let boardHeight = 576;
 let context;
 
-//doodler
-let doodler;
+//slime
+let slime;
 
 //platforms
 let platformArray = [];
@@ -170,7 +170,7 @@ function restartLevel() {
 }
 
 function landingPage() {
-    window.location.href = 'welcome.html';
+    window.location.href = 'index.html';
 }
 
 function saveGameState() {
@@ -202,7 +202,7 @@ function loadGameState() {
 
 window.onload = function() {
 
-    doodler = new Doodler(46, 46 , boardWidth, boardHeight);
+    slime = new Slime(46, 46 , boardWidth, boardHeight);
 
     loadImages();
 
@@ -213,10 +213,10 @@ window.onload = function() {
 
     placePlatforms();
 
-    doodler.img = doodler.RightImg;
-    doodler.jump();
-    doodler.RightImg.onload = function() {
-        context.drawImage(doodler.img, doodler.x, doodler.y, doodler.width, doodler.height);
+    slime.img = slime.RightImg;
+    slime.jump();
+    slime.RightImg.onload = function() {
+        context.drawImage(slime.img, slime.x, slime.y, slime.width, slime.height);
     }
 
     helpModal = document.getElementById("helpModal");
@@ -244,7 +244,7 @@ window.onload = function() {
 
 window.addEventListener("deviceorientation", function (event) {
     handleOrientation(event);
-    moveDoodlerGyro(event);
+    moveSlimeGyro(event);
 });
 
 function handleOrientation(event) {
@@ -308,14 +308,14 @@ function update() {
             }
             else if (playedLevels.length === totalLevels){
                 loadRandomLevel();
-                doodler.reset(boardWidth, boardHeight)
+                slime.reset(boardWidth, boardHeight)
 
                 loadLevel(levelsData.levels[currentLevelIndex]);
             }
         }
         else {
             loadRandomLevel();
-            doodler.reset(boardWidth, boardHeight)
+            slime.reset(boardWidth, boardHeight)
 
             loadLevel(levelsData.levels[currentLevelIndex]);
         }
@@ -332,11 +332,11 @@ function update() {
     for (let i = 0; i < platformArray.length; i++) {
         let platform = platformArray[i]
         // sliding platforms
-        if (doodler.velocityY < 0 && doodler.y < boardHeight*3/4) {
-            platform.y -= doodler.velocityY; //slide platform down
+        if (slime.velocityY < 0 && slime.y < boardHeight*3/4) {
+            platform.y -= slime.velocityY; //slide platform down
         }
 
-        if (platform.detectCollision(doodler)) {
+        if (platform.detectCollision(slime)) {
             if (platform.constructor.name === "DeadlyPlatform"){
                 killedByPlatform(i)
                 return;
@@ -344,18 +344,18 @@ function update() {
             if (platform.constructor.name === "EndPlatform"){
                 finish = true;
             }
-            platform.onCollision(doodler);
+            platform.onCollision(slime);
         }
 
         platform.update(boardWidth);
         context.drawImage(platform.img, platform.x, platform.y, Platform.width, Platform.height);
     }
 
-    // doodler
-    doodler.update(boardWidth, gravity);
-    context.drawImage(doodler.img, doodler.x, doodler.y, doodler.width, doodler.height);
+    // slime
+    slime.update(boardWidth, gravity);
+    context.drawImage(slime.img, slime.x, slime.y, slime.width, slime.height);
 
-    if (doodler.y > board.height) {
+    if (slime.y > board.height) {
         gameOver = true;
     }
 
@@ -367,43 +367,43 @@ function update() {
 
 function buttonUp(e){
     if (e.code === "ArrowLeft" || e.code === "KeyA")
-        doodler.velocityLeft = 0;
+        slime.velocityLeft = 0;
     if (e.code === "ArrowRight" || e.code === "KeyD")
-        doodler.velocityRight = 0;
+        slime.velocityRight = 0;
 }
 
 function buttonDown(e) {
 
     if (e.code === "ArrowRight" || e.code === "KeyD") { //move right
-        doodler.moveRight();
+        slime.moveRight();
     }
     else if (e.code === "ArrowLeft" || e.code === "KeyA") { //move left
-        doodler.moveLeft();
+        slime.moveLeft();
     }
     else if (e.code === "Space" && gameOver) {
         reset()
     }
 }
 
-function moveDoodlerGyro() {
+function moveSlimeGyro() {
 
     if (orientation > 0) {
         gyroMovement = 2;
-        doodler.moveRight(2);
+        slime.moveRight(2);
     } else if (orientation < 0) {
         // move left
         gyroMovement = -2;
-        doodler.moveLeft(2);
+        slime.moveLeft(2);
     } else {
         gyroMovement = 0;
     }
 
     if (gyroMovement !== 0) {
-        doodler.velocityLeft = gyroMovement;
-        doodler.velocityRight = gyroMovement;
+        slime.velocityLeft = gyroMovement;
+        slime.velocityRight = gyroMovement;
     } else {
-        doodler.velocityLeft = 0;
-        doodler.velocityRight = 0;
+        slime.velocityLeft = 0;
+        slime.velocityRight = 0;
     }
 }
 
@@ -418,7 +418,7 @@ function placePlatforms() {
                 loadRandomLevel();
             }
             loadLevel(levelsData.levels[currentLevelIndex]);
-            doodler.reset(boardWidth, boardHeight);
+            slime.reset(boardWidth, boardHeight);
 
         });
 }
@@ -446,7 +446,7 @@ function createPlatform(type, x, y) {
 
 function reset(){
 
-    doodler.reset(boardWidth, boardHeight);
+    slime.reset(boardWidth, boardHeight);
     gameOver = false;
     platformArray = [];
 
@@ -457,11 +457,11 @@ function reset(){
 }
 function loadImages() {
     // load images
-    doodler.RightImg = new Image();
-    doodler.RightImg.src = "./assets/slime-right.png";
+    slime.RightImg = new Image();
+    slime.RightImg.src = "./assets/slime-right.png";
 
-    doodler.LeftImg = new Image();
-    doodler.LeftImg.src = "./assets/slime-left.png";
+    slime.LeftImg = new Image();
+    slime.LeftImg.src = "./assets/slime-left.png";
 
     Platform.img = new Image();
     Platform.img.src = "./assets/platform.png";
@@ -497,8 +497,8 @@ function killedByPlatform(i){
         platform.update(boardWidth);
         context.drawImage(platform.img, platform.x, platform.y, Platform.width, Platform.height);
     }
-    doodler.update(boardWidth, gravity);
-    context.drawImage(doodler.img, doodler.x, doodler.y, doodler.width, doodler.height);
+    slime.update(boardWidth, gravity);
+    context.drawImage(slime.img, slime.x, slime.y, slime.width, slime.height);
     setGameOver();
 }
 

@@ -13,17 +13,17 @@ export class Platform {
     }
 
 
-    detectCollision(doodler) {
-        return doodler.x < this.x + Platform.width &&   //a's top left corner doesn't reach b's top right corner
-            doodler.x + doodler.width > this.x &&   //a's top right corner passes b's top left corner
-            doodler.y + doodler.height < this.y + Platform.height &&  //a's top left corner doesn't reach b's bottom left corner
-            doodler.y + doodler.height > this.y &&          //a's bottom left corner passes b's top left corner
-            doodler.velocityY >= 0;
+    detectCollision(slime) {
+        return slime.x < this.x + Platform.width &&   //a's top left corner doesn't reach b's top right corner
+            slime.x + slime.width > this.x &&   //a's top right corner passes b's top left corner
+            slime.y + slime.height < this.y + Platform.height &&  //a's top left corner doesn't reach b's bottom left corner
+            slime.y + slime.height > this.y &&          //a's bottom left corner passes b's top left corner
+            slime.velocityY >= 0;
     }
     update(boardWidth){}
 
-    onCollision(doodler){
-        doodler.jump();
+    onCollision(slime){
+        slime.jump();
     }
 }
 
@@ -57,7 +57,7 @@ export class BreakingPlatform extends Platform{
     get img(){
         return BreakingPlatform.img;
     }
-    onCollision(doodler){}
+    onCollision(slime){}
 }
 
 export class HighJumpPlatform extends Platform{
@@ -65,16 +65,16 @@ export class HighJumpPlatform extends Platform{
     get img(){
         return HighJumpPlatform.img;
     }
-    onCollision(doodler) {
-        doodler.jump(10);
+    onCollision(slime) {
+        slime.jump(10);
     }
 }
 export class LowJumpPlatform extends Platform{
     get img(){
         return LowJumpPlatform.img;
     }
-    onCollision(doodler) {
-        doodler.jump(7);
+    onCollision(slime) {
+        slime.jump(7);
     }
 }
 export class DeadlyPlatform extends Platform{
@@ -82,7 +82,7 @@ export class DeadlyPlatform extends Platform{
         return DeadlyPlatform.img;
     }
 
-    onCollision(doodler) {}
+    onCollision(slime) {}
 }
 
 export class EndPlatform extends Platform{
@@ -90,7 +90,7 @@ export class EndPlatform extends Platform{
         return EndPlatform.img;
     }
 
-    onCollision(doodler) {}
+    onCollision(slime) {}
 }
 
 

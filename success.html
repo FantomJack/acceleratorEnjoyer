@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gratulujeme! | Slime Accelerator Extravaganza</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap">
 
     <link rel="icon" href="assets/icon/favicon.ico" type="image/x-icon">
 
@@ -13,8 +13,7 @@
     <script type="module" src="script.js"></script>
 </head>
 <body>
-<img src="assets/title.png" alt="Názov hry" width=40%>
-<br><br>
+<img src="assets/title.png" alt="Názov hry" id="title-img">
 <article>
     <h1>Gratulujeme! Úspešne ste dokončilli všetky levely!</h1>
      <button onclick="startGame()">Hrať znova</button>
@@ -29,7 +28,7 @@
 </article>
 <script>
     function startGame() {
-        window.location.href = 'welcome.html';
+        window.location.href = 'index.html';
     }
 </script>
 

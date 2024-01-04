@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcceleratorEnjoyer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap">
+
+    <link rel="icon" href="assets/icon/favicon.ico" type="image/x-icon">
+    <script type="module" src="script.js"></script>
+</head>
+<body>
+<button id="helpButton" onclick="openHelpModal()">Pomoc</button>
+<button id="restartButton" onclick="restartLevel()">Začni odznova</button>
+<button id="welcomeButton" onclick="landingPage()">Späť</button>
+
+<br>
+<div id="orientationInfo"></div>
+<div id="helpModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeHelpModal()">&times;</span>
+        <div id="rulesContainer"></div>
+    </div>
+</div>
+<div id="output"></div>
+<div id="output2"></div>
+    <canvas id="board" class="noPrint"></canvas>
+</body>
+</html>

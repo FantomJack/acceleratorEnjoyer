@@ -1,15 +1,15 @@
-export class Doodler {
+export class Slime {
     static img;
     static RightImg;
     static LeftImg;
     static velocityY = 0;
     static jumpV = -8;
 
-    constructor(doodlerWidth, doodlerHeight, boardWidth, boardHeight) {
-        this.width = doodlerWidth;
-        this.height = doodlerHeight;
-        this.x = boardWidth/2 - doodlerWidth/2;
-        this.y = boardHeight*7/8 - doodlerHeight;
+    constructor(slimeWidth, slimeHeight, boardWidth, boardHeight) {
+        this.width = slimeWidth;
+        this.height = slimeHeight;
+        this.x = boardWidth/2 - slimeWidth/2;
+        this.y = boardHeight*7/8 - slimeHeight;
         this.velocityLeft = 0;
         this.velocityRight = 0;
 
@@ -30,7 +30,7 @@ export class Doodler {
         this.img = this.RightImg;
     }
 
-    jump(velocity = -Doodler.jumpV){
+    jump(velocity = -Slime.jumpV){
         this.velocityY = -velocity;
     }
 

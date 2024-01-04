@@ -1,7 +1,7 @@
 {
-  "name" : "Accelerator Enjoyer",
-  "short_name" : "Accerer",
-  "start_url" : "/index.html",
+  "name" : "Slime Accelerator Extravaganza",
+  "short_name" : "Slime Accelerator",
+  "start_url" : "/~xbelano/acceleratorEnjoyer/index.html",
   "display" : "standalone",
   "orientation" : "portrait",
   "background_color" : "#C6BBAB",
